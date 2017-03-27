@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC4E3F6A1E88D514006081C6 /* Two-Step.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BC4E3F691E88D514006081C6 /* Two-Step.mp3 */; };
+		BC5CB7711E83922B003CE9D0 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5CB7701E83922B003CE9D0 /* GridView.swift */; };
+		FB6A68551E6CA1CA0082EFF6 /* Assignment3.rtf in Resources */ = {isa = PBXBuildFile; fileRef = FB6A68541E6CA1CA0082EFF6 /* Assignment3.rtf */; };
+		FB6A68571E6CA3040082EFF6 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6A68561E6CA3040082EFF6 /* Grid.swift */; };
 		FBAD2DE91E2BE34F008207C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAD2DE81E2BE34F008207C0 /* AppDelegate.swift */; };
 		FBAD2DEB1E2BE34F008207C0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAD2DEA1E2BE34F008207C0 /* ViewController.swift */; };
 		FBAD2DEE1E2BE34F008207C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBAD2DEC1E2BE34F008207C0 /* Main.storyboard */; };
@@ -15,6 +19,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC4E3F691E88D514006081C6 /* Two-Step.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Two-Step.mp3"; sourceTree = "<group>"; };
+		BC5CB7701E83922B003CE9D0 /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		FB6A68541E6CA1CA0082EFF6 /* Assignment3.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Assignment3.rtf; sourceTree = "<group>"; };
+		FB6A68561E6CA3040082EFF6 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		FB6A68581E6CAB270082EFF6 /* NewGrid.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = NewGrid.playground; path = Assignment3/NewGrid.playground; sourceTree = "<group>"; };
+		FB6A68591E6CB60E0082EFF6 /* Assignment2Completed.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Assignment2Completed.playground; sourceTree = "<group>"; };
 		FBAD2DE51E2BE34F008207C0 /* Assignment3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assignment3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBAD2DE81E2BE34F008207C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBAD2DEA1E2BE34F008207C0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,6 +48,9 @@
 		FBAD2DDC1E2BE34F008207C0 = {
 			isa = PBXGroup;
 			children = (
+				FB6A68541E6CA1CA0082EFF6 /* Assignment3.rtf */,
+				FB6A68591E6CB60E0082EFF6 /* Assignment2Completed.playground */,
+				FB6A68581E6CAB270082EFF6 /* NewGrid.playground */,
 				FBAD2DE71E2BE34F008207C0 /* Assignment3 */,
 				FBAD2DE61E2BE34F008207C0 /* Products */,
 			);
@@ -60,6 +73,9 @@
 				FBAD2DEF1E2BE34F008207C0 /* Assets.xcassets */,
 				FBAD2DF11E2BE34F008207C0 /* LaunchScreen.storyboard */,
 				FBAD2DF41E2BE34F008207C0 /* Info.plist */,
+				FB6A68561E6CA3040082EFF6 /* Grid.swift */,
+				BC5CB7701E83922B003CE9D0 /* GridView.swift */,
+				BC4E3F691E88D514006081C6 /* Two-Step.mp3 */,
 			);
 			path = Assignment3;
 			sourceTree = "<group>";
@@ -96,7 +112,7 @@
 				TargetAttributes = {
 					FBAD2DE41E2BE34F008207C0 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 56MEECX7CG;
+						DevelopmentTeam = 87D4M6UWFC;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -125,6 +141,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBAD2DF31E2BE34F008207C0 /* LaunchScreen.storyboard in Resources */,
+				FB6A68551E6CA1CA0082EFF6 /* Assignment3.rtf in Resources */,
+				BC4E3F6A1E88D514006081C6 /* Two-Step.mp3 in Resources */,
 				FBAD2DF01E2BE34F008207C0 /* Assets.xcassets in Resources */,
 				FBAD2DEE1E2BE34F008207C0 /* Main.storyboard in Resources */,
 			);
@@ -139,6 +157,8 @@
 			files = (
 				FBAD2DEB1E2BE34F008207C0 /* ViewController.swift in Sources */,
 				FBAD2DE91E2BE34F008207C0 /* AppDelegate.swift in Sources */,
+				BC5CB7711E83922B003CE9D0 /* GridView.swift in Sources */,
+				FB6A68571E6CA3040082EFF6 /* Grid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +281,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 56MEECX7CG;
+				DEVELOPMENT_TEAM = 87D4M6UWFC;
 				INFOPLIST_FILE = Assignment3/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -275,7 +295,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 56MEECX7CG;
+				DEVELOPMENT_TEAM = 87D4M6UWFC;
 				INFOPLIST_FILE = Assignment3/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -304,6 +324,7 @@
 				FBAD2DF91E2BE34F008207C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
