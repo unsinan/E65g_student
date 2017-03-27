@@ -40,10 +40,11 @@ class ViewController: UIViewController {
         gridView.grid = gridView.grid.next()
         gridView.setNeedsDisplay()
         
+        
         // play music
         do
         {
-            let audioPath = Bundle.main.path(forResource: "Two-Step", ofType: "mp3")
+            let audioPath = Bundle.main.path(forResource: "Two-Step2", ofType: "mp3")
             try audioPlayer = AVAudioPlayer(contentsOf: NSURL(fileURLWithPath: audioPath!) as URL)
         }
         catch
