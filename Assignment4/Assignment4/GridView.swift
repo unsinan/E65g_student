@@ -1,35 +1,38 @@
 //
 //  GridView.swift
-//  Assignment3
+//  Assignment4
 //
 //  Created by An, Unsin on 3/23/17.
 //  Copyright © 2017 Harvard Division of Continuing Education. All rights reserved.
 //
 
 import UIKit
+import Foundation
 
 @IBDesignable class GridView: UIView {
     
-    @IBInspectable var fillColor: UIColor = UIColor.clear
+    @IBInspectable var fillColor = UIColor.clear
     // cell colors
     @IBInspectable var livingColor: UIColor = UIColor.green
-    @IBInspectable var emptyColor: UIColor = UIColor.darkGray
-    @IBInspectable var bornColor: UIColor = UIColor.green.withAlphaComponent(0.6)
-    @IBInspectable var diedColor: UIColor = UIColor.darkGray.withAlphaComponent(0.6)
-    @IBInspectable var gridColor: UIColor = UIColor.black
+    @IBInspectable var emptyColor = UIColor.darkGray
+    @IBInspectable var bornColor = UIColor.green.withAlphaComponent(0.6)
+    @IBInspectable var diedColor = UIColor.darkGray.withAlphaComponent(0.6)
+    @IBInspectable var gridColor = UIColor.black
     @IBInspectable var gridWidth: CGFloat = 2.0
     @IBInspectable var size: Int = 20 {
         didSet {
-            grid = Grid(size, size)
+//            grid = Grid(size, size)
+            self.grid = Grid(rows: self.size, cols: self.size)
         }
     }
+    
     
     var xColor = UIColor.black
     var xProportion = CGFloat(1.0)
     var widthProportion = CGFloat(0.05)
     
-    var grid = Grid(20,20)
-//    var cells: [[Cell]]
+//    var grid = Grid(20,20)
+//    var grid: GridProtocol?
     
     override func draw(_ rect: CGRect) {
         let size = CGSize(
@@ -39,35 +42,40 @@ import UIKit
         let base = rect.origin
         (0 ..< self.size).forEach { i in
             (0 ..< self.size).forEach { j in
-//                if let state = cells[i,j].state {
                     let origin = CGPoint(
-                        x: base.x + (CGFloat(j) * size.width),
-                        y: base.y + (CGFloat(i) * size.height)
+                // change for assignment 4 - Inset the oval 2 points from the left and top edges
+                        x: base.x + (CGFloat(j) * size.width) + 2.0,
+                        y: base.y + (CGFloat(i) * size.height) + 2.0
                     )
-                    let cell = CGRect(
-                        origin: origin,
-                        size: size
-                    )
+                
+                // change for assignment 4 - Make the oval draw 2 points short of the right and bottom edges
+                let ovalSize = CGSize(
+                    width: size.width - 4.0,
+                    height: size.height - 4.0
+                )
+                
+                let cell = CGRect(origin: origin, size: ovalSize)
+                
                 // draw circles
-//                if grid[(i,j)].isAlive {
-//                      let path = UIBezierPath(ovalIn: cell)
-//                      fillColor.setFill()
-//                      path.fill()
-//            }
-                    let path = UIBezierPath(ovalIn: cell)
-                    switch grid[(i,j)].description() {
-                    case .empty:
-                        emptyColor.setFill()
-                    case .born:
-                        bornColor.setFill()
-                    case .alive:
-                        livingColor.setFill()
-                    case .died:
-                        diedColor.setFill()
-                    default:
-                        emptyColor.setFill()
-                    }
-                    path.fill()
+                //                if grid[(i,j)].isAlive {
+                //                      let path = UIBezierPath(ovalIn: cell)
+                //                      fillColor.setFill()
+                //                      path.fill()
+                //            }
+                let path = UIBezierPath(ovalIn: cell)
+                switch grid[(i,j)].description() {
+                case .empty:
+                    emptyColor.setFill()
+                case .born:
+                    bornColor.setFill()
+                case .alive:
+                    livingColor.setFill()
+                case .died:
+                    diedColor.setFill()
+                default:
+                    emptyColor.setFill()
+                }
+                path.fill()
             }
         }
         
@@ -119,13 +127,20 @@ import UIKit
     
     func process(touches: Set<UITouch>) -> Position? {
         guard touches.count == 1 else { return nil }
+        
+        //changed for assignment 4
+        let touchY = touches.first!.location(in: self).y
+        let touchX = touches.first!.location(in: self).x
+        guard touchX > frame.origin.x && touchX < (frame.origin.x + frame.size.width) else { return nil }
+        guard touchY > frame.origin.y && touchY < (frame.origin.y + frame.size.height) else { return nil }
+        
         let position = convert(touch: touches.first!)
-        guard lastTouchedPosition?.row != position.row
-            || lastTouchedPosition?.col != position.col
+        
+        guard lastTouchedPosition?.row != position.row || lastTouchedPosition?.col != position.col
             else { return position }
         
         // replace with toggle method -- update
-//        grid[position] = grid[position].isAlive ? .empty : .alive
+        //        grid[position] = grid[position].isAlive ? .empty : .alive
         grid[position] = CellState.toggle(value: grid[position])
         setNeedsDisplay()
         return position
@@ -135,12 +150,12 @@ import UIKit
         let touchY = touch.location(in: self).y
         let gridHeight = frame.size.height
         let row = touchY / gridHeight * CGFloat(size)
+        
         let touchX = touch.location(in: self).x
         let gridWidth = frame.size.width
         let col = touchX / gridWidth * CGFloat(size)
-        let position = (row: Int(row), col: Int(col))
-        return position
+        
+        return Position(row: Int(row), col: Int(col))
     }
 }
-
 

@@ -35,20 +35,29 @@ public enum CellState: String {
         }
     }
     
-    public func description() -> String {
+    public func description() -> CellState {
         switch self {
-        case .alive, .born, .empty, .died: return self.rawValue
+        case .alive:
+            return CellState.alive
+        case .born:
+            return CellState.born
+        case .empty:
+            return CellState.empty
+        case.died:
+            return CellState.died
         }
     }
     
-    public func allValues() -> [CellState] {
+    public static func allValues() -> [CellState] {
         return [.alive, .born, .died, .empty]
     }
     
-    public func toggle(value: CellState) -> CellState {
-        switch self {
-        case .empty, .died: return .alive
-        case .alive, .born: return .empty
+    public static func toggle(value: CellState) -> CellState {
+        switch value {
+        case .empty, .died:
+            return .alive
+        case .alive, .born:
+            return .empty
         }
     }
     
