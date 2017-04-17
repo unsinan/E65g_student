@@ -203,3 +203,4 @@ func gliderInitializer(row: Int, col: Int) -> CellState {
     }
 }
 
+
