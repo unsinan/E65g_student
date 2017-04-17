@@ -196,7 +196,6 @@ class StandardEngine: EngineProtocol {
             }
         }
     }
-    
 
     static var engine: StandardEngine = StandardEngine(rows: 10, cols: 10)
     
