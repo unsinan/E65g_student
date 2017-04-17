@@ -165,13 +165,54 @@ public protocol EngineDelegate  {
 public protocol EngineProtocol {
     var delegate: EngineDelegate? { get set }
     var grid: GridProtocol { get set }
-    var refreshRate: Double { get set }
-    var refreshTimer: NSTimer { get }
+    var timerInterval: Double { get set }
+    var timer: Timer? { get }
     var rows: Int { get }
     var cols: Int { get }
     
-    init(_ rows: Int, _ cols: Int)
+    init(rows: Int, cols: Int)
     func step() -> GridProtocol
 }
 
+class StandardEngine: EngineProtocol {
+    var delegate: EngineDelegate?
+    var grid: GridProtocol
+    var timer: Timer?
+    var rows: Int
+    var cols: Int
+    var timerInterval: TimeInterval = 0.0 {
+        didSet {
+            if timerInterval > 0.0 {
+                timer = Timer.scheduledTimer(
+                    withTimeInterval: timerInterval,
+                    repeats: true
+                ) { (t: Timer) in
+                    _ = self.step()
+                }
+            }
+            else {
+                timer?.invalidate()
+                timer = nil
+            }
+        }
+    }
+    
 
+    static var engine: StandardEngine = StandardEngine(rows: 10, cols: 10)
+    
+    required init(rows: Int, cols: Int) {
+        grid = Grid(GridSize(rows, cols, cellInitializer: {_,_ in .empty }))
+        self.rows = rows
+        self.cols = cols
+        delegate?.engineDidUpdate(withGrid: self.grid)
+    }
+    
+    func step() -> GridProtocol {
+        let newGrid = grid.next()
+        grid = newGrid
+        delegate?.engineDidUpdate(withGrid: grid)
+        return grid
+    }
+    
+    
+}

@@ -7,22 +7,20 @@
 //
 
 import UIKit
-import Foundation
 
 @IBDesignable class GridView: UIView {
     
     @IBInspectable var fillColor = UIColor.clear
     // cell colors
     @IBInspectable var livingColor: UIColor = UIColor.green
-    @IBInspectable var emptyColor = UIColor.darkGray
-    @IBInspectable var bornColor = UIColor.green.withAlphaComponent(0.6)
-    @IBInspectable var diedColor = UIColor.darkGray.withAlphaComponent(0.6)
-    @IBInspectable var gridColor = UIColor.black
+    @IBInspectable var emptyColor: UIColor = UIColor.darkGray
+    @IBInspectable var bornColor: UIColor = UIColor.green.withAlphaComponent(0.6)
+    @IBInspectable var diedColor: UIColor = UIColor.darkGray.withAlphaComponent(0.6)
+    @IBInspectable var gridColor: UIColor = UIColor.black
     @IBInspectable var gridWidth: CGFloat = 2.0
     @IBInspectable var size: Int = 20 {
         didSet {
-//            grid = Grid(size, size)
-            self.grid = Grid(rows: self.size, cols: self.size)
+            grid = Grid(size, size)
         }
     }
     
@@ -32,7 +30,7 @@ import Foundation
     var widthProportion = CGFloat(0.05)
     
 //    var grid = Grid(20,20)
-//    var grid: GridProtocol?
+    var grid: GridProtocol?
     
     override func draw(_ rect: CGRect) {
         let size = CGSize(
@@ -63,7 +61,7 @@ import Foundation
                 //                      path.fill()
                 //            }
                 let path = UIBezierPath(ovalIn: cell)
-                switch grid[(i,j)].description() {
+                switch grid([i,j]).description() {
                 case .empty:
                     emptyColor.setFill()
                 case .born:

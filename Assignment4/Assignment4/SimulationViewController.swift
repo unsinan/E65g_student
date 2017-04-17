@@ -14,14 +14,23 @@ class SimulationViewController: UIViewController, EngineDelegate {
     @IBOutlet weak var stepButton: UIButton!
     
     var engine: StandardEngine!
-    
-//    var grid: Grid = Grid(GridSize(3,3))  // from class 8
+//    var delegate: EngineDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let size = gridView.size
-        engine = StandardEngine(size,size)
+        engine = StandardEngine(rows: size, cols: size)
         engine.delegate = self
+//        gridView.grid = self
+
+        let nc = NotificationCenter.default
+        let name = Notification.Name(rawValue: "EngineUpdate")
+        nc.addObserver(
+            forName: name,
+            object: nil,
+            queue: nil) { (n) in
+                self.gridView.setNeedsDisplay()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,8 +39,15 @@ class SimulationViewController: UIViewController, EngineDelegate {
     }
     
     func engineDidUpdate(withGrid: GridProtocol) {
-        // xxxx - fill in
+        self.gridView.setNeedsDisplay()
     }
+    
+    @IBAction func step(_ sender: Any) {
+        engine.grid = Grid(GridSize(rows: Int(sender.value), cols: Int(sender.value)))
+        gridView.size = Int(sender.value)
+        gridView.setNeedsDisplay()
+    }
+    
 }
     
     
