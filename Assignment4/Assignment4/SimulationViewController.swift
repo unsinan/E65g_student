@@ -42,14 +42,23 @@ class SimulationViewController: UIViewController, EngineDelegate {
         self.gridView.setNeedsDisplay()
     }
     
-    @IBAction func step(_ sender: Any) {
-        engine.grid = Grid(GridSize(rows: Int(sender.value), cols: Int(sender.value)))
-        gridView.size = Int(sender.value)
+//    @IBAction func step(_ sender: Any) {
+//        engine.grid = Grid(GridSize(rows: Int(sender.value), cols: Int(sender.value)))
+//        gridView.size = Int(sender.value)
+//        gridView.setNeedsDisplay()
+//    }
+    
+    //corrected
+    //MARK: UIButton Event Handling
+    @IBAction func step(_ sender: UIButton) {
+//        engine.grid = engine.grid.next()
+        engine.grid = engine.step()
         gridView.setNeedsDisplay()
     }
     
+
 }
-    
+
     
     /*
     // MARK: - Navigation
@@ -61,20 +70,3 @@ class SimulationViewController: UIViewController, EngineDelegate {
     }
     */
 
-
-//assignment 3
-//class ViewController: UIViewController {
-//    
-//    
-//    @IBOutlet weak var myButton: UIButton!
-//    @IBOutlet weak var gridView: GridView!
-//
-//    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//    }
-//    
-//    override func didReceiveMemoryWarning() {
-//        super.didReceiveMemoryWarning()
-//        // Dispose of any resources that can be recreated.
-//}

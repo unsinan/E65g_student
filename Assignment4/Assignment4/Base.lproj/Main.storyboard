@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -55,6 +55,9 @@
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="30" maximumValue="100" stepValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="J0Q-7E-o77">
                                 <rect key="frame" x="219.5" y="81" width="94" height="29"/>
+                                <connections>
+                                    <action selector="rowStep:" destination="9pv-A4-QxB" eventType="valueChanged" id="3gL-Od-brW"/>
+                                </connections>
                             </stepper>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mAz-td-6vM">
                                 <rect key="frame" x="127.5" y="184" width="65" height="30"/>
@@ -65,9 +68,19 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="colEditingBegan:" destination="9pv-A4-QxB" eventType="editingDidBegin" id="1CH-pe-peF"/>
+                                    <action selector="colEditingChanged:" destination="9pv-A4-QxB" eventType="editingChanged" id="kg2-t5-xqU"/>
+                                    <action selector="colEditingEnded:" destination="9pv-A4-QxB" eventType="editingDidEnd" id="RQl-56-VZO"/>
+                                    <action selector="colEditingEndedOnExit:" destination="9pv-A4-QxB" eventType="editingDidEndOnExit" id="Aiu-YX-HWh"/>
+                                    <action selector="colTriggeredAction:" destination="9pv-A4-QxB" eventType="primaryActionTriggered" id="CXO-dc-slj"/>
+                                </connections>
                             </textField>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="30" maximumValue="100" stepValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Eff-kA-K9Y">
                                 <rect key="frame" x="219.5" y="184" width="94" height="29"/>
+                                <connections>
+                                    <action selector="colStep:" destination="9pv-A4-QxB" eventType="valueChanged" id="wc2-QD-ijW"/>
+                                </connections>
                             </stepper>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Oe-Mf-l6n">
                                 <rect key="frame" x="215.5" y="393" width="51" height="31"/>
@@ -81,6 +94,13 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="editingBegan:" destination="9pv-A4-QxB" eventType="editingDidBegin" id="v84-kJ-rZC"/>
+                                    <action selector="rowEditingChanged:" destination="9pv-A4-QxB" eventType="editingChanged" id="udp-91-reD"/>
+                                    <action selector="rowEditingEnded:" destination="9pv-A4-QxB" eventType="editingDidEnd" id="7FZ-vZ-rSv"/>
+                                    <action selector="rowEditingEndedOnExit:" destination="9pv-A4-QxB" eventType="editingDidEndOnExit" id="9Bn-GL-df2"/>
+                                    <action selector="rowTriggeredAction:" destination="9pv-A4-QxB" eventType="primaryActionTriggered" id="P9J-lW-Rzd"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rows:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8cv-AT-Kd4">
                                 <rect key="frame" x="8.5" y="86" width="90" height="18"/>
@@ -129,7 +149,6 @@
                     <connections>
                         <outlet property="RrefreshRate" destination="qLK-vY-Ys0" id="Odm-BL-mQS"/>
                         <outlet property="colsDisplay" destination="mAz-td-6vM" id="Crx-LC-BAb"/>
-                        <outlet property="colsStep" destination="Eff-kA-K9Y" id="PfT-vX-K7C"/>
                         <outlet property="colsStepper" destination="Eff-kA-K9Y" id="5NK-OM-hBJ"/>
                         <outlet property="refreshSwitch" destination="7Oe-Mf-l6n" id="jLE-ZQ-4Bf"/>
                         <outlet property="rowsDisplay" destination="xkg-N2-ew8" id="0KT-Ib-meO"/>
@@ -230,7 +249,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.94953334730000005" blue="0.0" alpha="0.156950431" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="34E-oZ-nR4" firstAttribute="leading" secondItem="3gf-3p-XH5" secondAttribute="leading" id="3Wm-8M-i0O"/>
                                     <constraint firstItem="34E-oZ-nR4" firstAttribute="width" relation="lessThanOrEqual" secondItem="Yic-8J-FSS" secondAttribute="width" multiplier="0.8" id="8lz-7G-pH9"/>

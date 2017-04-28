@@ -8,10 +8,15 @@ import Foundation
 public typealias GridPosition = (row: Int, col: Int)
 public typealias GridSize = (rows: Int, cols: Int)
 
+//fileprivate func norm(_ val: Int, to size: Int) -> Int { return ((val % size) + size) % size }
+
 fileprivate func norm(_ val: Int, to size: Int) -> Int { return ((val % size) + size) % size }
 
-public enum CellState {
-    case alive, empty, born, died
+public enum CellState: String {
+    case alive = "alive"
+    case empty = "empty"
+    case born = "born"
+    case died = "died"
     
     public var isAlive: Bool {
         switch self {
@@ -19,6 +24,33 @@ public enum CellState {
         default: return false
         }
     }
+    
+    public func description() -> CellState {
+        switch self {
+        case .alive:
+            return CellState.alive
+        case .born:
+            return CellState.born
+        case .empty:
+            return CellState.empty
+        case.died:
+            return CellState.died
+        }
+    }
+    
+    public static func allValues() -> [CellState] {
+        return [.alive, .born, .died, .empty]
+    }
+    
+    public static func toggle(value: CellState) -> CellState {
+        switch value {
+        case .empty, .died:
+            return .alive
+        case .alive, .born:
+            return .empty
+        }
+    }
+
 }
 
 public protocol GridProtocol {
@@ -200,16 +232,17 @@ class StandardEngine: EngineProtocol {
     static var engine: StandardEngine = StandardEngine(rows: 10, cols: 10)
     
     required init(rows: Int, cols: Int) {
-        grid = Grid(GridSize(rows, cols, cellInitializer: {_,_ in .empty }))
+        grid = Grid(rows,cols) //corrected
         self.rows = rows
         self.cols = cols
         delegate?.engineDidUpdate(withGrid: self.grid)
     }
     
     func step() -> GridProtocol {
+//        NSLog("step")
         let newGrid = grid.next()
         grid = newGrid
-        delegate?.engineDidUpdate(withGrid: grid)
+        delegate?.engineDidUpdate(withGrid: self.grid)
         return grid
     }
     

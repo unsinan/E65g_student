@@ -33,6 +33,7 @@ import UIKit
     var grid: GridProtocol?
     
     override func draw(_ rect: CGRect) {
+        guard let grid = grid else { return super.draw(rect) }   //corrected - new
         let size = CGSize(
             width: rect.size.width / CGFloat(self.size),
             height: rect.size.height / CGFloat(self.size)
@@ -61,7 +62,8 @@ import UIKit
                 //                      path.fill()
                 //            }
                 let path = UIBezierPath(ovalIn: cell)
-                switch grid([i,j]).description() {
+//                switch grid([i,j]).description() {    // corrected
+                switch grid[(i,j)] {
                 case .empty:
                     emptyColor.setFill()
                 case .born:
@@ -129,18 +131,27 @@ import UIKit
         //changed for assignment 4
         let touchY = touches.first!.location(in: self).y
         let touchX = touches.first!.location(in: self).x
-        guard touchX > frame.origin.x && touchX < (frame.origin.x + frame.size.width) else { return nil }
-        guard touchY > frame.origin.y && touchY < (frame.origin.y + frame.size.height) else { return nil }
         
+//        NSLog("\(touchY) \(touchX)")
+        guard touchX > bounds.origin.x && touchX < (bounds.origin.x + bounds.size.width) else {
+            return nil
+        }
+        guard touchY > bounds.origin.y && touchY < (bounds.origin.y + bounds.size.height) else {
+            return nil
+        }
+//        NSLog("second guard")
         let position = convert(touch: touches.first!)
         
         guard lastTouchedPosition?.row != position.row || lastTouchedPosition?.col != position.col
             else { return position }
+            
+        //corrected 4 lines
+        if grid != nil {
+            //            grid![position.row, position.col] = grid![position.row, position.col].isAlive ? .empty : .alive
+            grid![position.row, position.col] = CellState.toggle(value: grid![position.row, position.col])
+            setNeedsDisplay()
+        }
         
-        // replace with toggle method -- update
-        //        grid[position] = grid[position].isAlive ? .empty : .alive
-        grid[position] = CellState.toggle(value: grid[position])
-        setNeedsDisplay()
         return position
     }
     
