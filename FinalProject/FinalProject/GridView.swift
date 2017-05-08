@@ -8,6 +8,10 @@
 
 import UIKit
 
+public protocol GridViewDataSource {
+    subscript (row: Int, col: Int) -> CellState { get set }
+}
+
 @IBDesignable class GridView: UIView {
     
     @IBInspectable var fillColor = UIColor.clear
@@ -18,78 +22,77 @@ import UIKit
     @IBInspectable var diedColor: UIColor = UIColor.darkGray.withAlphaComponent(0.6)
     @IBInspectable var gridColor: UIColor = UIColor.black
     @IBInspectable var gridWidth: CGFloat = 2.0
-    @IBInspectable var size: Int = 20 {
-        didSet {
-            grid = Grid(size, size)
-        }
-    }
+    @IBInspectable var gridSize: Int = 20
     
+    // Updated since class
+    var gridDataSource: GridViewDataSource?
     
     var xColor = UIColor.black
     var xProportion = CGFloat(1.0)
     var widthProportion = CGFloat(0.05)
     
-//    var grid = Grid(20,20)
-    var grid: GridProtocol?
-    
     override func draw(_ rect: CGRect) {
-        guard let grid = grid else { return super.draw(rect) }   //corrected - new
+        drawOvals(rect)
+        drawLines(rect)
+    }
+    
+    func drawOvals(_ rect: CGRect) {
         let size = CGSize(
-            width: rect.size.width / CGFloat(self.size),
-            height: rect.size.height / CGFloat(self.size)
+            width: rect.size.width / CGFloat(gridSize),
+            height: rect.size.height / CGFloat(gridSize)
         )
         let base = rect.origin
-        (0 ..< self.size).forEach { i in
-            (0 ..< self.size).forEach { j in
-                    let origin = CGPoint(
-                // change for assignment 4 - Inset the oval 2 points from the left and top edges
-                        x: base.x + (CGFloat(j) * size.width) + 2.0,
-                        y: base.y + (CGFloat(i) * size.height) + 2.0
-                    )
-                
-                // change for assignment 4 - Make the oval draw 2 points short of the right and bottom edges
+        (0 ..< gridSize).forEach { i in
+            (0 ..< gridSize).forEach { j in
+                // Inset the oval 2 points from the left and top edges
+                let ovalOrigin = CGPoint(
+                    x: base.x + (CGFloat(j) * size.width) + 2.0,
+                    y: base.y + (CGFloat(i) * size.height + 2.0)
+                )
+                // Make the oval draw 2 points short of the right and bottom edges
                 let ovalSize = CGSize(
                     width: size.width - 4.0,
                     height: size.height - 4.0
                 )
-                
-                let cell = CGRect(origin: origin, size: ovalSize)
-                
-                // draw circles
-                //                if grid[(i,j)].isAlive {
-                //                      let path = UIBezierPath(ovalIn: cell)
-                //                      fillColor.setFill()
-                //                      path.fill()
-                //            }
-                let path = UIBezierPath(ovalIn: cell)
-//                switch grid([i,j]).description() {    // corrected
-                switch grid[(i,j)] {
-                case .empty:
-                    emptyColor.setFill()
-                case .born:
-                    bornColor.setFill()
-                case .alive:
-                    livingColor.setFill()
-                case .died:
-                    diedColor.setFill()
+                let ovalRect = CGRect( origin: ovalOrigin, size: ovalSize )
+                if let grid = gridDataSource, grid[i,j].isAlive {
+                    switch grid[(i,j)] {
+                    case .empty:
+                        emptyColor.setFill()
+                    case .born:
+                        bornColor.setFill()
+                    case .alive:
+                        livingColor.setFill()
+                    case .died:
+                        diedColor.setFill()
+                    }
+                    drawOval(ovalRect)
                 }
-                path.fill()
             }
         }
-        
+    }
+    
+    func drawOval(_ ovalRect: CGRect) {
+        let path = UIBezierPath(ovalIn: ovalRect)
+//        fillColor.setFill()
+        path.fill()
+    }
+    
+    func drawLines(_ rect: CGRect) {
         //create the path
-        (0 ..< (self.size + 1)).forEach {
+        (0 ..< (gridSize + 1)).forEach {
             drawLine(
-                start: CGPoint(x: CGFloat($0)/CGFloat(self.size) * rect.size.width, y: 0.0),
-                end:   CGPoint(x: CGFloat($0)/CGFloat(self.size) * rect.size.width, y: rect.size.height)
+                start: CGPoint(x: CGFloat($0)/CGFloat(gridSize) * rect.size.width, y: 0.0),
+                end:   CGPoint(x: CGFloat($0)/CGFloat(gridSize) * rect.size.width, y: rect.size.height)
             )
             
             drawLine(
-                start: CGPoint(x: 0.0, y: CGFloat($0)/CGFloat(self.size) * rect.size.height ),
-                end: CGPoint(x: rect.size.width, y: CGFloat($0)/CGFloat(self.size) * rect.size.height)
+                start: CGPoint(x: 0.0, y: CGFloat($0)/CGFloat(gridSize) * rect.size.height ),
+                end: CGPoint(x: rect.size.width, y: CGFloat($0)/CGFloat(gridSize) * rect.size.height)
             )
         }
     }
+    
     func drawLine(start:CGPoint, end: CGPoint) {
         let path = UIBezierPath()
         
@@ -120,49 +123,40 @@ import UIKit
         lastTouchedPosition = nil
     }
     
-    typealias Position = (row: Int, col: Int)
-    var lastTouchedPosition: Position?
+    // Updated since class
+    var lastTouchedPosition: GridPosition?
     
-    func process(touches: Set<UITouch>) -> Position? {
+    func process(touches: Set<UITouch>) -> GridPosition? {
+        let touchY = touches.first!.location(in: self.superview).y
+        let touchX = touches.first!.location(in: self.superview).x
+        guard touchX > frame.origin.x && touchX < (frame.origin.x + frame.size.width) else { return nil }
+        guard touchY > frame.origin.y && touchY < (frame.origin.y + frame.size.height) else { return nil }
+        
         guard touches.count == 1 else { return nil }
+        let pos = convert(touch: touches.first!)
         
-        //changed for assignment 4
-        let touchY = touches.first!.location(in: self).y
-        let touchX = touches.first!.location(in: self).x
+        //************* IMPORTANT ****************
+        guard lastTouchedPosition?.row != pos.row
+            || lastTouchedPosition?.col != pos.col
+            else { return pos }
+        //****************************************
         
-//        NSLog("\(touchY) \(touchX)")
-        guard touchX > bounds.origin.x && touchX < (bounds.origin.x + bounds.size.width) else {
-            return nil
-        }
-        guard touchY > bounds.origin.y && touchY < (bounds.origin.y + bounds.size.height) else {
-            return nil
-        }
-//        NSLog("second guard")
-        let position = convert(touch: touches.first!)
-        
-        guard lastTouchedPosition?.row != position.row || lastTouchedPosition?.col != position.col
-            else { return position }
-            
-        //corrected 4 lines
-        if grid != nil {
-            //            grid![position.row, position.col] = grid![position.row, position.col].isAlive ? .empty : .alive
-            grid![position.row, position.col] = CellState.toggle(value: grid![position.row, position.col])
+        if gridDataSource != nil {
+            gridDataSource![pos.row, pos.col] = gridDataSource![pos.row, pos.col].isAlive ? .empty : .alive
             setNeedsDisplay()
         }
-        
-        return position
+        return pos
     }
     
-    func convert(touch: UITouch) -> Position {
+    func convert(touch: UITouch) -> GridPosition {
         let touchY = touch.location(in: self).y
         let gridHeight = frame.size.height
-        let row = touchY / gridHeight * CGFloat(size)
+        let row = touchY / gridHeight * CGFloat(gridSize)
         
         let touchX = touch.location(in: self).x
         let gridWidth = frame.size.width
-        let col = touchX / gridWidth * CGFloat(size)
+        let col = touchX / gridWidth * CGFloat(gridSize)
         
-        return Position(row: Int(row), col: Int(col))
+        return GridPosition(row: Int(row), col: Int(col))
     }
 }
-

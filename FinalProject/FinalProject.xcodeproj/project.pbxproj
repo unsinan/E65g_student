@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC1F2A061EBD67B200D82AE8 /* GridProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F2A051EBD67B200D82AE8 /* GridProtocol.swift */; };
+		BC2401AA1EB78132001F1725 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC26930D1EB6CFAE000E21D3 /* GridView.swift */; };
+		BC2401AC1EB7EB17001F1725 /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2401AB1EB7EB17001F1725 /* Fetcher.swift */; };
 		BC26930F1EB6CFAE000E21D3 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC26930C1EB6CFAE000E21D3 /* Grid.swift */; };
-		BC2693101EB6CFAE000E21D3 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC26930D1EB6CFAE000E21D3 /* GridView.swift */; };
 		BC2693551EB6E863000E21D3 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2693541EB6E863000E21D3 /* StatisticsViewController.swift */; };
 		BC2693571EB76BEB000E21D3 /* GridEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2693561EB76BEB000E21D3 /* GridEditorViewController.swift */; };
 		FBAD2E271E2BE417008207C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAD2E261E2BE417008207C0 /* AppDelegate.swift */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC1F2A051EBD67B200D82AE8 /* GridProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridProtocol.swift; sourceTree = "<group>"; };
+		BC2401AB1EB7EB17001F1725 /* Fetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
 		BC26930C1EB6CFAE000E21D3 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		BC26930D1EB6CFAE000E21D3 /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		BC2693541EB6E863000E21D3 /* StatisticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
@@ -64,7 +68,9 @@
 		FBAD2E251E2BE417008207C0 /* FinalProject */ = {
 			isa = PBXGroup;
 			children = (
+				BC2401AB1EB7EB17001F1725 /* Fetcher.swift */,
 				BC26930C1EB6CFAE000E21D3 /* Grid.swift */,
+				BC1F2A051EBD67B200D82AE8 /* GridProtocol.swift */,
 				BC26930D1EB6CFAE000E21D3 /* GridView.swift */,
 				FBAD2E261E2BE417008207C0 /* AppDelegate.swift */,
 				FBAD2E281E2BE417008207C0 /* InstrumentationViewController.swift */,
@@ -152,11 +158,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC2401AA1EB78132001F1725 /* GridView.swift in Sources */,
+				BC1F2A061EBD67B200D82AE8 /* GridProtocol.swift in Sources */,
+				BC2401AC1EB7EB17001F1725 /* Fetcher.swift in Sources */,
 				FBAD2E2B1E2BE417008207C0 /* SimulationViewController.swift in Sources */,
 				FBAD2E271E2BE417008207C0 /* AppDelegate.swift in Sources */,
 				FBAD2E291E2BE417008207C0 /* InstrumentationViewController.swift in Sources */,
 				BC2693571EB76BEB000E21D3 /* GridEditorViewController.swift in Sources */,
-				BC2693101EB6CFAE000E21D3 /* GridView.swift in Sources */,
 				BC26930F1EB6CFAE000E21D3 /* Grid.swift in Sources */,
 				BC2693551EB6E863000E21D3 /* StatisticsViewController.swift in Sources */,
 			);
@@ -283,11 +291,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 56MEECX7CG;
 				INFOPLIST_FILE = FinalProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.harvard.FinalProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -297,11 +306,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 56MEECX7CG;
 				INFOPLIST_FILE = FinalProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.harvard.FinalProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

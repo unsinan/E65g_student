@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,21 +21,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Icons by &lt;a href=&quot;https://icons8.com/web-app/11355/Grid&quot;&gt;Grid icon credits&lt;/a&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H6N-Za-kwk">
-                                <rect key="frame" x="16" y="260" width="343" height="84"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Icons by &lt;a href=&quot;https://icons8.com/web-app/11355/Grid&quot;&gt;Grid icon credits&lt;/a&gt;" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="awe-u0-Sae">
+                                <rect key="frame" x="12.5" y="298.5" width="350" height="70"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" link="YES" selected="YES"/>
+                                </accessibility>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="84" id="AdI-PV-LL4"/>
-                                    <constraint firstAttribute="width" constant="343" id="z7O-QH-rna"/>
+                                    <constraint firstAttribute="height" constant="70" id="rfJ-TI-8t3"/>
+                                    <constraint firstAttribute="width" constant="350" id="zRV-V0-s0x"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="H6N-Za-kwk" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Zsp-Ln-WVs"/>
-                            <constraint firstItem="H6N-Za-kwk" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-31.5" id="boy-wT-zPs"/>
+                            <constraint firstItem="awe-u0-Sae" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="MIr-9A-WwS"/>
+                            <constraint firstItem="awe-u0-Sae" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="viJ-aW-a7k"/>
                         </constraints>
                     </view>
                 </viewController>

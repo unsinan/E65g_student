@@ -1,82 +1,46 @@
-//*********************************************************************************************************************
 //
 //  Grid.swift
 //
-
 import Foundation
-
-public typealias GridPosition = (row: Int, col: Int)
-public typealias GridSize = (rows: Int, cols: Int)
-
-//fileprivate func norm(_ val: Int, to size: Int) -> Int { return ((val % size) + size) % size }
 
 fileprivate func norm(_ val: Int, to size: Int) -> Int { return ((val % size) + size) % size }
 
-public enum CellState: String {
-    case alive = "alive"
-    case empty = "empty"
-    case born = "born"
-    case died = "died"
-    
-    public var isAlive: Bool {
-        switch self {
-        case .alive, .born: return true
-        default: return false
-        }
-    }
-    
-    public func description() -> CellState {
-        switch self {
-        case .alive:
-            return CellState.alive
-        case .born:
-            return CellState.born
-        case .empty:
-            return CellState.empty
-        case.died:
-            return CellState.died
-        }
-    }
-    
-    public static func allValues() -> [CellState] {
-        return [.alive, .born, .died, .empty]
-    }
-    
-    public static func toggle(value: CellState) -> CellState {
-        switch value {
-        case .empty, .died:
-            return .alive
-        case .alive, .born:
-            return .empty
-        }
-    }
-
-}
-
-public protocol GridProtocol {
-    init(_ rows: Int, _ cols: Int, cellInitializer: (GridPosition) -> CellState)
-    var description: String { get }
-    var size: GridSize { get }
-    subscript (row: Int, col: Int) -> CellState { get set }
-    func next() -> Self
-}
-
-public let lazyPositions = { (size: GridSize) in
+fileprivate let lazyPositions = { (size: GridSize) in
     return (0 ..< size.rows)
         .lazy
         .map { zip( [Int](repeating: $0, count: size.cols) , 0 ..< size.cols ) }
         .flatMap { $0 }
-        .map { GridPosition($0) }
+        .map { GridPosition(row: $0.0,col: $0.1) }
 }
 
-
-let offsets: [GridPosition] = [
-    (row: -1, col:  -1), (row: -1, col:  0), (row: -1, col:  1),
-    (row:  0, col:  -1),                     (row:  0, col:  1),
-    (row:  1, col:  -1), (row:  1, col:  0), (row:  1, col:  1)
+fileprivate let offsets: [GridPosition] = [
+    GridPosition(row: -1, col:  -1), GridPosition(row: -1, col:  0), GridPosition(row: -1, col:  1),
+    GridPosition(row:  0, col:  -1),                                 GridPosition(row:  0, col:  1),
+    GridPosition(row:  1, col:  -1), GridPosition(row:  1, col:  0), GridPosition(row:  1, col:  1)
 ]
 
-extension GridProtocol {
+public extension GridProtocol {
+}
+
+public struct Grid: GridProtocol, GridViewDataSource {
+    private var _cells: [[CellState]]
+    public let size: GridSize
+    
+    public subscript (row: Int, col: Int) -> CellState {
+        get { return _cells[norm(row, to: size.rows)][norm(col, to: size.cols)] }
+        set { _cells[norm(row, to: size.rows)][norm(col, to: size.cols)] = newValue }
+    }
+    
+    public init(_ size: GridSize, cellInitializer: (GridPosition) -> CellState = { _ in .empty }) {
+        _cells = [[CellState]](
+            repeatElement(
+                [CellState]( repeatElement(.empty, count: size.rows)),
+                count: size.cols
+            )
+        )
+        self.size = size
+        lazyPositions(self.size).forEach { self[$0.row, $0.col] = cellInitializer($0) }
+    }
     public var description: String {
         return lazyPositions(self.size)
             .map { (self[$0.row, $0.col].isAlive ? "*" : " ") + ($0.col == self.size.cols - 1 ? "\n" : "") }
@@ -97,32 +61,16 @@ extension GridProtocol {
         }
     }
     
-    public func next() -> Self {
-        var nextGrid = Self(size.rows, size.cols) { _, _ in .empty }
+    public func next() -> Grid {
+        var nextGrid = Grid(size) { _ in .empty }
         lazyPositions(self.size).forEach { nextGrid[$0.row, $0.col] = self.nextState(of: $0) }
         return nextGrid
     }
 }
 
-public struct Grid: GridProtocol {
-    private var _cells: [[CellState]]
-    public let size: GridSize
-    
-    public subscript (row: Int, col: Int) -> CellState {
-        get { return _cells[norm(row, to: size.rows)][norm(col, to: size.cols)] }
-        set { _cells[norm(row, to: size.rows)][norm(col, to: size.cols)] = newValue }
-    }
-    
-    public init(_ rows: Int, _ cols: Int, cellInitializer: (GridPosition) -> CellState = { _, _ in .empty }) {
-        _cells = [[CellState]](repeatElement( [CellState](repeatElement(.empty, count: rows)), count: cols))
-        size = GridSize(rows, cols)
-        lazyPositions(self.size).forEach { self[$0.row, $0.col] = cellInitializer($0) }
-    }
-}
-
 extension Grid: Sequence {
     fileprivate var living: [GridPosition] {
-        return lazyPositions(self.size).filter { return  self[$0.row, $0.col].isAlive   }
+        return lazyPositions(self.size).filter { return  self[$0.row, $0.col].isAlive }
     }
     
     public struct GridIterator: IteratorProtocol {
@@ -149,7 +97,7 @@ extension Grid: Sequence {
             }
         }
         
-        private var grid: GridProtocol
+        private var grid: Grid
         private var history: GridHistory!
         
         init(grid: Grid) {
@@ -157,9 +105,9 @@ extension Grid: Sequence {
             self.history = GridHistory(grid.living)
         }
         
-        public mutating func next() -> GridProtocol? {
-            if history.hasCycle { return nil }
-            let newGrid:Grid = grid.next() as! Grid
+        public mutating func next() -> Grid? {
+            guard !history.hasCycle else { return nil }
+            let newGrid = grid.next()
             history = GridHistory(newGrid.living, history)
             grid = newGrid
             return grid
@@ -172,80 +120,86 @@ extension Grid: Sequence {
 public extension Grid {
     public static func gliderInitializer(pos: GridPosition) -> CellState {
         switch pos {
-        case (0, 1), (1, 2), (2, 0), (2, 1), (2, 2): return .alive
+        case GridPosition(row: 0, col: 1), GridPosition(row: 1, col: 2),
+             GridPosition(row: 2, col: 0), GridPosition(row: 2, col: 1),
+             GridPosition(row: 2, col: 2): return .alive
         default: return .empty
         }
     }
 }
 
-//assignment 4
+var configuration: [String:[[Int]]] = [:]
 
+public extension Grid {
+    func setConfiguration() {
+        lazyPositions(self.size).forEach {
+            switch self[$0.row, $0.col] {
+            case .born:
+                configuration["born"] = (configuration["born"] ?? []) + [[$0.row, $0.col]]
+            case .died:
+                configuration["died"] = (configuration["died"] ?? []) + [[$0.row, $0.col]]
+            case .alive:
+                configuration["alive"] = (configuration["alive"] ?? []) + [[$0.row, $0.col]]
+            case .empty:
+                ()
+            }
+        }
+    }
+}
 
-//public protocol GridProtocol {
-//    init(_ rows: Int, _ cols: Int, cellInitializer: (GridPosition) -> CellState)
-//    var description: String { get }
-//    var size: GridSize { get }
-//    subscript (row: Int, col: Int) -> CellState { get set }
-//    func next() -> Self
-//}
-
-public protocol EngineDelegate  {
+    
+protocol EngineDelegate {
     func engineDidUpdate(withGrid: GridProtocol)
 }
 
-
-public protocol EngineProtocol {
-    var delegate: EngineDelegate? { get set }
-    var grid: GridProtocol { get set }
+protocol EngineProtocol {
     var timerInterval: Double { get set }
-    var timer: Timer? { get }
-    var rows: Int { get }
-    var cols: Int { get }
-    
-    init(rows: Int, cols: Int)
+    var grid: Grid { get set }
+    var delegate: EngineDelegate? { get set }
+    var updateClosure: ((Grid) -> Void)? { get set }
     func step() -> GridProtocol
 }
 
-class StandardEngine: EngineProtocol {
-    var delegate: EngineDelegate?
-    var grid: GridProtocol
-    var timer: Timer?
-    var rows: Int
-    var cols: Int
-    var timerInterval: TimeInterval = 0.0
-//    {
-//        didSet {
-//            if timerInterval > 0.0 {
-//                timer = Timer.scheduledTimer(
-//                    withTimeInterval: timerInterval,
-//                    repeats: true
-//                ) { (t: Timer) in
-//                    _ = self.step()
-//                }
-//            }
-//            else {
-//                timer?.invalidate()
-//                timer = nil
-//            }
-//        }
-//    }
-
-    static var engine: StandardEngine = StandardEngine(rows: 10, cols: 10)
+class Engine: EngineProtocol {
+    static var engine: Engine = Engine(rows: 10, cols: 10)
     
-    required init(rows: Int, cols: Int) {
-        grid = Grid(rows,cols) //corrected
-        self.rows = rows
-        self.cols = cols
-        delegate?.engineDidUpdate(withGrid: self.grid)
+    var grid: Grid
+    var delegate: EngineDelegate?
+    
+    var updateClosure: ((Grid) -> Void)?
+    var timer: Timer?
+    var timerInterval: TimeInterval = 0.0 {
+        didSet {
+            if timerInterval > 0.0 {
+                timer = Timer.scheduledTimer(
+                    withTimeInterval: timerInterval,
+                    repeats: true
+                ) { (t: Timer) in
+                    _ = self.step()
+                }
+            }
+            else {
+                timer?.invalidate()
+                timer = nil
+            }
+        }
+    }
+    
+    init(rows: Int, cols: Int) {
+        self.grid = Grid(GridSize(rows: rows, cols: cols))
     }
     
     func step() -> GridProtocol {
-//        NSLog("step")
         let newGrid = grid.next()
         grid = newGrid
-        delegate?.engineDidUpdate(withGrid: self.grid)
+        //         updateClosure?(self.grid)
+        delegate?.engineDidUpdate(withGrid: grid)
+        let nc = NotificationCenter.default
+        let name = Notification.Name(rawValue: "EngineUpdate")
+        let n = Notification(name: name,
+                             object: nil,
+                             userInfo: ["engine" : self])
+        nc.post(n)
         return grid
     }
-    
-    
 }

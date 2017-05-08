@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BC42BC921E9F59850070EAEE /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC42BC911E9F59850070EAEE /* GridView.swift */; };
+		BC86DAEE1EBC1A3600B63DCB /* GridProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC86DAED1EBC1A3600B63DCB /* GridProtocol.swift */; };
 		BCE614FC1EA00733008B1EBB /* InstrumentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE614FB1EA00733008B1EBB /* InstrumentationViewController.swift */; };
 		BCE614FE1EA00761008B1EBB /* SimulationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE614FD1EA00761008B1EBB /* SimulationViewController.swift */; };
 		BCE615001EA0077C008B1EBB /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE614FF1EA0077C008B1EBB /* StatisticsViewController.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		BC42BC911E9F59850070EAEE /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		BC86DAED1EBC1A3600B63DCB /* GridProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridProtocol.swift; sourceTree = "<group>"; };
 		BCBF1C011E9DFD0B00CE5324 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		BCE614FB1EA00733008B1EBB /* InstrumentationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentationViewController.swift; sourceTree = "<group>"; };
 		BCE614FD1EA00761008B1EBB /* SimulationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimulationViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				BCE614FF1EA0077C008B1EBB /* StatisticsViewController.swift */,
 				BCBF1C011E9DFD0B00CE5324 /* Grid.swift */,
 				BC42BC911E9F59850070EAEE /* GridView.swift */,
+				BC86DAED1EBC1A3600B63DCB /* GridProtocol.swift */,
 			);
 			path = Assignment4;
 			sourceTree = "<group>";
@@ -155,6 +158,7 @@
 				BCE614FE1EA00761008B1EBB /* SimulationViewController.swift in Sources */,
 				BC42BC921E9F59850070EAEE /* GridView.swift in Sources */,
 				BCE614FC1EA00733008B1EBB /* InstrumentationViewController.swift in Sources */,
+				BC86DAEE1EBC1A3600B63DCB /* GridProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

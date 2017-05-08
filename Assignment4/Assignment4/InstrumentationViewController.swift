@@ -10,10 +10,9 @@ import UIKit
 
 class InstrumentationViewController: UIViewController {
 
-    @IBOutlet weak var rowsDisplay: UITextField!
-    @IBOutlet weak var rowsStepper: UIStepper!
-    @IBOutlet weak var colsDisplay: UITextField!
-    @IBOutlet weak var colsStepper: UIStepper!
+    
+    @IBOutlet weak var sizeDisplay: UITextField!
+    @IBOutlet weak var sizeStepper: UIStepper!
     @IBOutlet weak var RrefreshRate: UISlider!
     @IBOutlet weak var refreshSwitch: UISwitch!
     
@@ -33,34 +32,27 @@ class InstrumentationViewController: UIViewController {
     
 
     
-    @IBAction func rowStep(_ sender: UIStepper) {
+    @IBAction func sizeStep(_ sender: UIStepper) {
     }
     
-    @IBAction func colStep(_ sender: UIStepper) {
-    }
     
     // MARK: - TextField Event Handling
     
-    @IBAction func rowEditingBegan(_ sender: UITextField) {
+    @IBAction func sizeEditingBegan(_ sender: UITextField) {
     }
     
-    @IBAction func rowEditingChanged(_ sender: UITextField) {
+    @IBAction func sizeEditingChanged(_ sender: UITextField) {
     }
     
-    @IBAction func rowEditingEndedOnExit(_ sender: UITextField) {
+    @IBAction func sizeEditingEndedOnExit(_ sender: UITextField) {
     }
     
-    @IBAction func rowEditingEnded(_ sender: UITextField) {
+    @IBAction func sizeEditingEnded(_ sender: UITextField) {
     }
     
-    @IBAction func rowTriggeredAction(_ sender: UITextField) {
+    @IBAction func sizeTriggeredAction(_ sender: UITextField) {
     }
-    
-    @IBAction func colEditingBegan(_ sender: UITextField) {
-    }
-    
-    @IBAction func colEditingChanged(_ sender: UITextField) {
-    }
+
     
 //    @IBAction func colEditingEndedOnExit(_ sender: UITextField) {
 //        guard let text = sender.text else {return }
@@ -75,11 +67,6 @@ class InstrumentationViewController: UIViewController {
 //        gridView.setNeedsDisplay()
 //    }
     
-    @IBAction func colEditingEnded(_ sender: UITextField) {
-    }
-    
-    @IBAction func colTriggeredAction(_ sender: UITextField) {
-    }
     
     //MARK: AlertController Handling
     func showErrorAlert(withMessage msg:String, action: (() -> Void)? ) {
