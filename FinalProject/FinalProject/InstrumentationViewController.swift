@@ -20,6 +20,7 @@ import Foundation
 class InstrumentationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,7 +84,7 @@ class InstrumentationViewController: UIViewController, UITableViewDelegate, UITa
         let identifier = "basic"
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
         let label = cell.contentView.subviews.first as! UILabel
-        label.text = "text" //[indexPath.section][indexPath.item]
+        label.text = jsonTitle //[indexPath.section][indexPath.item]
 //        label.text = jsonDictionary[indexPath.section][indexPath.item]
         
         return cell

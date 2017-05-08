@@ -53,9 +53,6 @@ class SimulationViewController: UIViewController, GridViewDataSource, EngineDele
         super.didReceiveMemoryWarning()
     }
     
-//    @IBAction func otherStop(_ sender: Any) {
-//    }
-    
     
     @IBAction func step(_ sender: UIButton) {
         engine.step()
@@ -63,8 +60,9 @@ class SimulationViewController: UIViewController, GridViewDataSource, EngineDele
     }
     
     @IBAction func reset(_ sender: UIButton) {
-//        gridView.gridSize = engine.grid.size.rows
+        engine.grid = Grid(GridSize(rows: engine.grid.size.rows, cols: engine.grid.size.rows))
         gridView.setNeedsDisplay()
+
     }
     
     @IBAction func stop(_ sender: Any) {

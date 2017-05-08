@@ -6,6 +6,8 @@
 //  Copyright © 2017 Harvard Division of Continuing Education. All rights reserved.
 //
 
+import Foundation
+
 public struct GridPosition: Equatable {
     var row: Int
     var col: Int
@@ -31,6 +33,13 @@ public enum CellState {
     }
 }
 
+public struct JsonGrid {
+    let json : Any?
+    let jsonArray : NSArray
+    let jsonDictionary : NSDictionary
+    let jsonTitle : String
+    let jsonContents : [[Int]]
+}
 
 public protocol GridProtocol: CustomStringConvertible {
     init(_ size: GridSize, cellInitializer: (GridPosition) -> CellState)
