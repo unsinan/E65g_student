@@ -16,7 +16,8 @@ class SimulationViewController: UIViewController, GridViewDataSource, EngineDele
     @IBOutlet weak var saveButton: UIButton!
     
     var engine: EngineProtocol!
-    var timer: Timer?
+    
+    var saveClosure: ((String) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,13 +66,14 @@ class SimulationViewController: UIViewController, GridViewDataSource, EngineDele
 
     }
     
-    @IBAction func stop(_ sender: Any) {
-        engine.timerInterval = 0.0
+    @IBAction func saveGrid(_ sender: UIButton) {
+//        if let newValue = engine.grid,
+//        let saveClosure = saveClosure {
+//            saveClosure(newValue)
+//            self.navigationController?.popViewController(animated: true)  // go back without having to manually click on back
+//        }
     }
-    
-    @IBAction func start(_ sender: Any) {
-        engine.timerInterval = 1.0
-    }
+
     
 //    //MARK: Stepper Event Handling
 //    @IBAction func step(_ sender: UIStepper) {

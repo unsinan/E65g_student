@@ -21,9 +21,33 @@ class InstrumentationViewController: UIViewController, UITableViewDelegate, UITa
     
     @IBOutlet weak var tableView: UITableView!
 
+    @IBOutlet weak var size: UITextField!
+    @IBOutlet weak var sizeStepper: UIStepper!
+    @IBOutlet weak var refreshRate: UISlider!
+    @IBOutlet weak var timerSwitch: UISwitch!
+    
+    var engine: EngineProtocol!
+    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        engine = Engine.engine
+//        gridView.gridSize = engine.grid.size.rows
+//        engine.delegate = self
+//        engine.updateClosure = { (grid) in
+//            self.gridView.setNeedsDisplay()
+//        }
+//        gridView.gridDataSource = self
+//                sizeStepper.value = Double(engine.grid.size.rows)
+//        
+//        let nc = NotificationCenter.default
+//        let name = Notification.Name(rawValue: "EngineUpdate")
+//        nc.addObserver(
+//            forName: name,
+//            object: nil,
+//            queue: nil) { (n) in
+//                self.gridView.setNeedsDisplay()
+//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,11 +74,11 @@ class InstrumentationViewController: UIViewController, UITableViewDelegate, UITa
             jsonDictionary = jsonArray?[0] as? NSDictionary
             jsonTitle = jsonDictionary?["title"] as? String
             jsonContents = jsonDictionary?["contents"] as? [[Int]]
-            print (jsonTitle, jsonContents)
+//            print (jsonTitle, jsonContents)
 
-            //            OperationQueue.main.addOperation {
-            //                self.textField.text = resultString
-            //            }
+            OperationQueue.main.addOperation {
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -62,13 +86,29 @@ class InstrumentationViewController: UIViewController, UITableViewDelegate, UITa
         navigationController?.isNavigationBarHidden = true
     }
     
+    @IBAction func size(_ sender: UITextField) {
+    }
+
+    @IBAction func sizeStepper(_ sender: UIStepper) {
+        engine.grid = Grid(GridSize(rows: Int(sender.value), cols: Int(sender.value) + 5))
+//        gridView.gridSize = Int(sender.value)
+//        gridView.setNeedsDisplay()
+    }
     
-//    @IBAction func addRowToTop(_ sender: UIButton) {
-//        data[0] = ["New Fruity Thing"] + data[0]
-//        self.tableView.reloadData()
-//    }
+    @IBAction func refreshRate(_ sender: UISlider) {
+    }
+    
+    @IBAction func timerSwitch(_ sender: UISwitch) {
+    }
     
     //MARK: TableView DataSource and Delegate
+//    @IBAction func stop(_ sender: Any) {
+//        engine.timerInterval = 0.0
+//    }
+//    
+//    @IBAction func start(_ sender: Any) {
+//        engine.timerInterval = 1.0
+//    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
 //        return data.count
@@ -76,7 +116,7 @@ class InstrumentationViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return jsonContents.count
+//        return jsonContents!.count
         return 1
     }
     
@@ -84,15 +124,15 @@ class InstrumentationViewController: UIViewController, UITableViewDelegate, UITa
         let identifier = "basic"
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
         let label = cell.contentView.subviews.first as! UILabel
-        label.text = jsonTitle //[indexPath.section][indexPath.item]
 //        label.text = jsonDictionary[indexPath.section][indexPath.item]
+//        label.text = jsonTitle
+        label.text = "title"
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return jsonTitle
-//        return "test"
     }
     
 //    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
